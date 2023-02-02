@@ -1,0 +1,12 @@
+{
+  "name": "com.rsh.uitoolkit",
+  "version": "1.0.0",
+  "displayName": "UI Toolkit",
+  "description": "A UI Toolkit for unity engine",
+  "unity": "2021.1",
+  "unityRelease": "0b5",
+  "author": {
+    "name": "Rasoul Shahhoseini"
+  },
+  "type": "library"
+}
