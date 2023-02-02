@@ -106,7 +106,7 @@ namespace UIToolkit.InteractionHelpers
                 return;
             }
 
-            isHover = true;
+            isHover = false;
             OnBlur?.Invoke(this);
             OnBlurAction();
         }
