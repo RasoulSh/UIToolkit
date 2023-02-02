@@ -47,6 +47,8 @@ namespace UIToolkit.InteractionHelpers
             }
         }
 
+        public bool IsHover => isHover;
+
         public static float DragThreshold
         {
             get

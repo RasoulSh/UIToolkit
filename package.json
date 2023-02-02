@@ -1,6 +1,6 @@
 {
   "name": "com.rsh.uitoolkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "UI Toolkit",
   "description": "A UI Toolkit for unity engine",
   "unity": "2021.1",
