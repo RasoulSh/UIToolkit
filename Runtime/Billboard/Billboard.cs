@@ -42,8 +42,7 @@ namespace UIToolkit.Billboard
             {
                 button = GetComponent<Button>();
             }
-            if (effect == null) return;
-            effect.PlayEffect(BillboardEffectType.Hide, true);
+            PlayEffect(BillboardEffectType.Hide, true);
         }
 
         private void Start()
@@ -88,10 +87,7 @@ namespace UIToolkit.Billboard
 
             if (_isShown != isShown)
             {
-                if (effect != null)
-                {
-                    effect.PlayEffect(isShown ? BillboardEffectType.Show : BillboardEffectType.Hide, this._isShown == null);
-                }
+                PlayEffect(isShown ? BillboardEffectType.Show : BillboardEffectType.Hide, this._isShown == null);
                 _isShown = isShown;
                 if (isShown == false)
                 {
@@ -130,7 +126,79 @@ namespace UIToolkit.Billboard
                 }
             }
         }
+        
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (_isShown == false)
+            {
+                return;
+            }
+            PlayEffect(BillboardEffectType.Hover);
+        }
 
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (_isShown == false)
+            {
+                return;
+            }
+            PlayEffect(BillboardEffectType.Blur);
+        }
+
+
+        public void HideBillboard()
+        {
+            _canShow = false;
+            if (_isShown == false)
+            {
+                return;
+            }
+            _isShown = false;
+            if (button)
+            {
+                button.interactable = false;
+            }
+            PlayEffect(BillboardEffectType.Hide);
+        }
+        public void ShowBillboard()
+        {
+            if (_isShown == true)
+            {
+                return;
+            }
+            _canShow = true;
+            if (button)
+            {
+                button.interactable = true;
+            }
+            PlayEffect(BillboardEffectType.Show);
+        }
+
+        public void PlayEffect(BillboardEffectType effectType, bool ignoreAnimation = false)
+        {
+            if (effect == null)
+            {
+                if (effectType == BillboardEffectType.Show)
+                {
+                    gameObject.SetActive(true);
+                }
+                else if (effectType == BillboardEffectType.Hide)
+                {
+                    gameObject.SetActive(false);
+                }
+                return;
+            }
+            effect.PlayEffect(effectType, ignoreAnimation);
+        }
+
+        public enum BillboardEffectType
+        {
+            Show = 0,
+            Hide = 1,
+            Hover = 2,
+            Blur = 3
+        }
+        
         [Serializable]
         public class BillboardConfig
         {
@@ -176,78 +244,6 @@ namespace UIToolkit.Billboard
                 get => rotationOffset;
                 set => rotationOffset = value;
             }
-        }
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (_isShown == false)
-            {
-                return;
-            }
-            if (effect == null) return;
-            effect.PlayEffect(BillboardEffectType.Hover);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if (_isShown == false)
-            {
-                return;
-            }
-            if (effect == null) return;
-            effect.PlayEffect(BillboardEffectType.Blur);
-        }
-
-
-        public void HideBillboard()
-        {
-            _canShow = false;
-            if (_isShown == false)
-            {
-                return;
-            }
-            _isShown = false;
-            if (button)
-            {
-                button.interactable = false;
-            }
-
-            if (effect != null)
-            {
-                effect.PlayEffect(BillboardEffectType.Hide);   
-            }
-            else
-            {
-                gameObject.SetActive(false);
-            }
-        }
-        public void ShowBillboard()
-        {
-            if (_isShown == true)
-            {
-                return;
-            }
-            _canShow = true;
-            if (button)
-            {
-                button.interactable = true;
-            }
-
-            if (effect != null)
-            {
-                effect.PlayEffect(BillboardEffectType.Show);
-            }
-            else
-            {
-                gameObject.SetActive(true);
-            }
-        }
-
-        public enum BillboardEffectType
-        {
-            Show = 0,
-            Hide = 1,
-            Hover = 2,
-            Blur = 3
         }
     }
 }
