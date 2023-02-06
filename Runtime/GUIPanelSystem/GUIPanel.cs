@@ -13,7 +13,8 @@ namespace UIToolkit.GUIPanelSystem
         public CanvasGroup CanvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>(); 
         public bool IsShown => isShown;
         public bool IsInitialized { get; private set; }
-
+        public event GUIPanelDelegate OnToggle;
+        public delegate void GUIPanelDelegate(GUIPanel panel);
         protected virtual void Start()
         {
             if (IsInitialized)
@@ -66,6 +67,7 @@ namespace UIToolkit.GUIPanelSystem
                 return;
             }
             this.isShown = isShown;
+            OnToggle?.Invoke(this);
             if (tweener == null)
             {
                 gameObject.SetActive(isShown);
