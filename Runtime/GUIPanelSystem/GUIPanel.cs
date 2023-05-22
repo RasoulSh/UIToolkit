@@ -27,7 +27,7 @@ namespace UIToolkit.GUIPanelSystem
             }
         }
 
-        public virtual bool Initialize()
+        public bool Initialize()
         {
             if (IsInitialized)
             {
@@ -35,6 +35,7 @@ namespace UIToolkit.GUIPanelSystem
                 return false;
             }
             IsInitialized = true;
+            OnInitialize();
             tweener ??= GetComponent<Tweener>();
             if (tweener != null)
             {
@@ -56,6 +57,9 @@ namespace UIToolkit.GUIPanelSystem
             set => CanvasGroup.interactable = value;
         }
 
+        public void Show(bool ignoreAnimate = false) => Toggle(true, ignoreAnimate);
+        public void Hide(bool ignoreAnimate = false) => Toggle(false, ignoreAnimate);
+
         public void Toggle(bool isShown, bool ignoreAnimate = false)
         {
             if (IsInitialized == false)
@@ -67,6 +71,10 @@ namespace UIToolkit.GUIPanelSystem
                 return;
             }
             this.isShown = isShown;
+            if(isShown)
+                OnShow();
+            else
+                OnHide();
             OnToggle?.Invoke(this);
             if (tweener == null)
             {
@@ -80,5 +88,9 @@ namespace UIToolkit.GUIPanelSystem
             }
             tweener.Play(isShown, ignoreAnimate);
         }
+
+        protected virtual void OnShow(){}
+        protected virtual void OnHide(){}
+        protected virtual void OnInitialize(){}
     }
 }
