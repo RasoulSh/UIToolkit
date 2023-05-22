@@ -12,6 +12,39 @@ namespace UIToolkit.GUIPanelSystem
         private CanvasGroup _canvasGroup;
         public CanvasGroup CanvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>(); 
         public bool IsShown => isShown;
+#if UNITY_EDITOR
+        /// <summary>
+        /// Important: Only callable in editor
+        /// </summary>
+        public bool InitialShown
+        {
+            set
+            {
+                if (UnityEditor.EditorApplication.isPlaying)
+                {
+                    Debug.LogError("You can only set initial shown in editor mode");
+                    return;
+                }
+                isShown = value;
+            }
+        }
+        /// <summary>
+        /// Important: Only callable in editor
+        /// </summary>
+        public bool InitializeOnStart
+        {
+            set
+            {
+                if (UnityEditor.EditorApplication.isPlaying)
+                {
+                    Debug.LogError("You can only set initialize on start in editor mode");
+                    return;
+                }
+
+                initializeOnStart = value;
+            }
+        }
+#endif
         public bool IsInitialized { get; private set; }
         public event GUIPanelDelegate OnToggle;
         public delegate void GUIPanelDelegate(GUIPanel panel);
